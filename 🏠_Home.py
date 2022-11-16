@@ -75,8 +75,8 @@ with st.sidebar:
     st_lottie(lottie_coding, height=200, key="coding")
     st.title("Analyzing users features for a smoother travel experience")
     st.write('''
-    Hey 👋🏻there. My name is Karim Hazimeh and my teammate Mohammad Alalem, Zaka data science students. 
-    We enjoy working with data and extracting insightful information from them🎯.
+    Hey 👋🏻there. My name is Karim Hazimeh , aspiring data analyst. 
+    I enjoy working with data and extracting insightful information from them🎯.
     ''')
     st.write("---")
 
