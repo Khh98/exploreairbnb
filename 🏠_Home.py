@@ -56,7 +56,7 @@ lottie_coding = load_lottieurl("https://assets5.lottiefiles.com/private_files/lf
 
 #Homepage configuration
 
-im = Image.open(r"C:\Users\karim\OneDrive\Documents\exploreairbnb\airbnblogo.jpg")
+im = Image.open(r"\exploreairbnb\airbnb-2.jpg")
 
 st.set_page_config(
     page_title="Airbnb",
