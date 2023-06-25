@@ -58,7 +58,7 @@ lottie_coding = load_lottieurl("https://assets5.lottiefiles.com/private_files/lf
 
 #Homepage configuration
 # Fetch the image from the GitHub repository
-im = Image.open("/exploreairbnb/airbnb-2.jpg")
+im = Image.open(r"\exploreairbnb\airbnb-2.jpg")
 st.set_page_config(
     page_title="Airbnb",
     page_icon=im,
