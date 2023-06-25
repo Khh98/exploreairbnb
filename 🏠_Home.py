@@ -57,7 +57,7 @@ lottie_coding = load_lottieurl("https://assets5.lottiefiles.com/private_files/lf
 
 #Homepage configuration
 # Fetch the image from the GitHub repository
-image_url = "https://raw.githubusercontent.com/your_username/your_repository/main/airbnb-2.jpg"
+image_url = "https://github.com/Khh98/exploreairbnb/blob/main/airbnb-2.jpg"
 response = requests.get(image_url)
 im = Image.open(BytesIO(response.content))
 
