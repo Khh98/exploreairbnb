@@ -4,6 +4,7 @@ from PIL import Image
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 import requests
+import plotly.express as px
 import numpy as np 
 import pandas as pd 
 import matplotlib
@@ -63,8 +64,6 @@ def loadImages(path):
 
 
 
-path = r"C:\Users\karim\OneDrive\Desktop\exploreairbnb\images"
-image_paths=loadImages(path)
 
 #extract images from url column data to match it with the images loaded
 import urllib.parse
@@ -78,10 +77,7 @@ listings2['images'] = extract_images
 df2 = pd.read_csv("paths.csv")
 df2.drop("paths",axis=1,inplace=True)
 
-df2["path"] = image_paths
-
 images_data=df2.merge(listings2, how='left')
-images_data.to_csv("images.csv")
 #model
 
 def get_embedding(model, img_name):
@@ -131,11 +127,24 @@ def get_recommender(idx, df, top_n = 5):
 
 
 
-def load_image(img, resized_fac = 0.1):
-    img     = cv2.imread(img)
-    w, h, _ = img.shape
-    resized = cv2.resize(img, (int(h*resized_fac), int(w*resized_fac)), interpolation = cv2.INTER_AREA)
-    return img
+# Define a function to load an image from URL
+def load_image_from_url(url, resized_fac=0.1):
+    try:
+        response = requests.get(url)
+        img_array = np.array(bytearray(response.content), dtype=np.uint8)
+        img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
+        
+        if img is None or np.mean(img) < 1:
+            return None
+        
+        w, h, _ = img.shape
+        resized = cv2.resize(img, (int(h*resized_fac), int(w*resized_fac)), interpolation=cv2.INTER_AREA)
+        return resized
+    
+    except Exception as e:
+        print(f"Error loading image from URL: {url}")
+        print(e)
+        return None
 
 
 def plot_figures(figures, nrows = 1, ncols=1,figsize=(8, 8)):
@@ -155,26 +164,29 @@ def plot_figures(figures, nrows = 1, ncols=1,figsize=(8, 8)):
         axeslist.ravel()[ind].set_axis_off()
     plt.tight_layout() # optional
 
+
+warning_message = "⚠️ Please note that the images are loaded in real-time from Airbnb listings, and some of them may be corrupted. If you encounter any errors or see black images, please click 'Get Listing' again."
 idx_ref = np.random.randint(1, images_data.shape[0], 1)[0]
 get_item = st.sidebar.button('Get Listing')
         
 if get_item:
-            st.markdown(images_data["description"].loc[idx_ref],unsafe_allow_html=True)
-            st.markdown(images_data["listing_url"].loc[idx_ref],unsafe_allow_html=True)
-            # Recommendations
-            idx_rec, idx_sim = get_recommender(idx_ref, images_data, top_n = 6)
+    st.markdown(images_data["description"].loc[idx_ref], unsafe_allow_html=True)
+    st.markdown(images_data["listing_url"].loc[idx_ref], unsafe_allow_html=True)
+    # Recommendations
+    idx_rec, idx_sim = get_recommender(idx_ref, images_data, top_n=6)
 
-            # Plot
-            #===================
-            plt.imshow(cv2.cvtColor(load_image(images_data.iloc[idx_ref].path), cv2.COLOR_BGR2RGB))
-            st.sidebar.image(cv2.cvtColor(load_image(images_data.iloc[idx_ref].path), cv2.COLOR_BGR2RGB), width=350)
-            st.sidebar.caption("Check the details of the following property here with similar listings👉")
-            # generation of a dictionary of (title, images)
-            figures = {str(i): load_image(row.path) for i, row in images_data.loc[idx_rec].iterrows()}
-            title = "<p style='text-align:left;color:DarkRed; font-size:20px;'>Compared to similar listings:</p>" 
-            st.markdown(title, unsafe_allow_html=True)
-            # plot of the images in a figure, with 3 rows and 2 columns
-            st.pyplot(plot_figures(figures, 3, 2))
-            title2 = "<p style='text-align:left;color:DarkRed; font-size:20px;'>For more info, vist us here:</p>" 
-            st.markdown(title2, unsafe_allow_html=True)
-            st.markdown(str(images_data["listing_url"].loc[idx_rec]),unsafe_allow_html=True)
+    # Plot reference image
+    ref_image = load_image_from_url(images_data.iloc[idx_ref]['picture_url'])
+    st.sidebar.image(ref_image, width=350)
+    st.sidebar.caption("Check the details of the following property here with similar listings👉")
+    # Display warning message
+    st.sidebar.warning(warning_message)
+
+    # Plot similar images
+    figures = {str(i): load_image_from_url(row['picture_url']) for i, row in images_data.loc[idx_rec].iterrows()}
+    title = "<p style='text-align:left;color:DarkRed; font-size:20px;'>Compared to similar listings:</p>"
+    st.markdown(title, unsafe_allow_html=True)
+    st.pyplot(plot_figures(figures, 3, 2))
+    title2 = "<p style='text-align:left;color:DarkRed; font-size:20px;'>For more info, visit us here:</p>"
+    st.markdown(title2, unsafe_allow_html=True)
+    st.markdown(str(images_data["listing_url"].loc[idx_rec]), unsafe_allow_html=True)
