@@ -10,6 +10,11 @@ import matplotlib
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+import plotly.graph_objects as go
+import plotly.express as px
+import plotly.offline as pyo
+
+
 import matplotlib.pyplot as plt
 import urllib.parse
 
@@ -51,7 +56,7 @@ lottie_coding = load_lottieurl("https://assets5.lottiefiles.com/private_files/lf
 
 #Homepage configuration
 
-im = Image.open("airbnb-2.jpg")
+im = Image.open(r"C:\Users\karim\OneDrive\Documents\exploreairbnb\airbnblogo.jpg")
 
 st.set_page_config(
     page_title="Airbnb",
@@ -75,7 +80,7 @@ with st.sidebar:
     st_lottie(lottie_coding, height=200, key="coding")
     st.title("Analyzing users features for a smoother travel experience")
     st.write('''
-    Hey 👋🏻there. My name is Karim Hazimeh , aspiring data analyst. 
+    Hey 👋🏻there. My name is Karim Hazimeh, aspiring data analyst. 
     I enjoy working with data and extracting insightful information from them🎯.
     ''')
     st.write("---")
@@ -195,7 +200,114 @@ def eda(df):
             st.success("Generating Pie Chart ...")
             st.write(df[selected_columns].value_counts().plot.pie(autopct="%1.1f%%"))
             st.pyplot()
+    #map
+    if st.checkbox("Show Interactive map"):
+        st.success("Generating Map ...")
+        cscale = [
+          [0.0, 'rgb(165,0,38)'], 
+          [0.0005, 'rgb(215,48,39)'], 
+          [0.007, 'rgb(250, 152, 122)'], 
+          [0.08, 'rgb(208, 254, 144)'], 
+          [0.1, 'rgb(0, 255, 179)'], 
+          [0.3, 'rgb(171,217,233)'], 
+          [0.7, 'rgb(116,173,209)'], 
+          [0.9, 'rgb(69,117,180)'], 
+          [1.0, 'rgb(49,54,149)']
+         ]
+        london_listings = df[df['City'] == 'London']
+        barcelona_listings = df[df['City'] == 'Barcelona']
+        istanbul_listings = df[df['City'] == 'Istanbul']
+        ny_listings = df[df['City'] == 'New York']
+        singapore_listings = df[df['City'] == 'Singapore']
+        sydney_listings = df[df['City'] == 'Sydney']
+        rio_listings = df[df['City'] == 'Rio de Janeiro']
+        all_cities = ['London','Barcelona','Istanbul','New York','Singapore','Sydney','Rio de Janeiro']
+        selected_city = st.selectbox("Select City", all_cities)
+        if selected_city=="London":
+                map = px.scatter_mapbox(london_listings, lat="latitude", lon="longitude",opacity=1.0, 
+                        color ='price', size="price",
+                        color_continuous_scale=cscale,
+                        height = 900, zoom = 9.7,
+                        text= 'room_type',
+                        hover_name = 'name')
 
+                map.update_layout(mapbox_style="open-street-map")
+                map.update_layout(margin={"r":80,"t":80,"l":80,"b":80})
+
+                st.plotly_chart(map)
+        elif selected_city=='Barcelona':
+                map = px.scatter_mapbox(barcelona_listings, lat="latitude", lon="longitude",opacity=1.0, 
+                        color ='price', size="price",
+                        color_continuous_scale=cscale,
+                        height = 900, zoom = 9.7,
+                        text= 'room_type',
+                        hover_name = 'name')
+
+                map.update_layout(mapbox_style="open-street-map")
+                map.update_layout(margin={"r":80,"t":80,"l":80,"b":80})
+
+                st.plotly_chart(map)
+        elif selected_city=='Istanbul':
+                map = px.scatter_mapbox(istanbul_listings, lat="latitude", lon="longitude",opacity=1.0, 
+                        color ='price', size="price",
+                        color_continuous_scale=cscale,
+                        height = 900, zoom = 9.7,
+                        text= 'room_type',
+                        hover_name = 'name')
+
+                map.update_layout(mapbox_style="open-street-map")
+                map.update_layout(margin={"r":80,"t":80,"l":80,"b":80})
+
+                st.plotly_chart(map)
+        elif selected_city=='New York':
+                map = px.scatter_mapbox(ny_listings, lat="latitude", lon="longitude",opacity=1.0, 
+                        color ='price', size="price",
+                        color_continuous_scale=cscale,
+                        height = 900, zoom = 9.7,
+                        text= 'room_type',
+                        hover_name = 'name')
+
+                map.update_layout(mapbox_style="open-street-map")
+                map.update_layout(margin={"r":80,"t":80,"l":80,"b":80})
+
+                st.plotly_chart(map)
+        elif selected_city=='Singapore':
+                map = px.scatter_mapbox(singapore_listings, lat="latitude", lon="longitude",opacity=1.0, 
+                        color ='price', size="price",
+                        color_continuous_scale=cscale,
+                        height = 900, zoom = 9.7,
+                        text= 'room_type',
+                        hover_name = 'name')
+
+                map.update_layout(mapbox_style="open-street-map")
+                map.update_layout(margin={"r":80,"t":80,"l":80,"b":80})
+
+                st.plotly_chart(map)
+        elif selected_city=='Sydney':
+                map = px.scatter_mapbox(sydney_listings, lat="latitude", lon="longitude",opacity=1.0, 
+                        color ='price', size="price",
+                        color_continuous_scale=cscale,
+                        height = 900, zoom = 9.7,
+                        text= 'room_type',
+                        hover_name = 'name')
+
+                map.update_layout(mapbox_style="open-street-map")
+                map.update_layout(margin={"r":80,"t":80,"l":80,"b":80})
+
+                st.plotly_chart(map)
+        elif selected_city=='Rio de Janeiro':
+                map = px.scatter_mapbox(rio_listings, lat="latitude", lon="longitude",opacity=1.0, 
+                        color ='price', size="price",
+                        color_continuous_scale=cscale,
+                        height = 900, zoom = 9.7,
+                        text= 'room_type',
+                        hover_name = 'name')
+
+                map.update_layout(mapbox_style="open-street-map")
+                map.update_layout(margin={"r":80,"t":80,"l":80,"b":80})
+
+                st.plotly_chart(map)
+    
     # Customizable Plot
     st.subheader("Customizable Plot")
 
@@ -235,4 +347,3 @@ explore = listings2.drop(unnecessary_columns,axis=1).dropna()
 eda(explore)
 
 
-    
