@@ -1,10 +1,10 @@
 # exploreairbnb
-Data Exploration
-In the data exploration section, users can explore different aspects of the data:
+<h1>**Data Exploration**</h1>
+<br>In the data exploration section, users can explore different aspects of the data:</br>
 
-Data Content: Users can view the contents of the dataset, including the values in each row and column.
-Data Visualization: Users can visualize the data using various plots such as correlation plots, bar plots, interactive maps, and customizable plots. These visualizations provide insights into the dataset and help in understanding the relationships between different variables.
-Image Similarity Model Deployment
+<li>Data Content: Users can view the contents of the dataset, including the values in each row and column.</li>
+<li>Data Visualization: Users can visualize the data using various plots such as correlation plots, bar plots, interactive maps, and customizable plots. These visualizations provide insights into the dataset and help understand the relationships between different variables.</li>
+<h2>**Image Similarity Model Deployment**</h2>
 Once users click on the "Get Listing" button, the app deploys an image similarity model to provide relevant recommendations. Here's how it works:
 
 An image of the listing, along with all the details, is uploaded for the selected listing.
