@@ -19,3 +19,6 @@ Please note that the availability and accuracy of the recommendations depend on 
 Feel free to explore the app and make the most of its features. Enjoy your journey of discovering and finding the perfect Airbnb listings!
 
 You can customize and expand upon this description based on your specific Streamlit app and its functionalities.
+
+Check out the app now here 🤩:
+https://explore-airbnb-images.streamlit.app/
