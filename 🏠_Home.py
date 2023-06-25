@@ -35,7 +35,8 @@ from keras.layers import Input
 from keras.backend import reshape
 from keras.utils import load_img,img_to_array,array_to_img
 import cv2
-from io import BytesIO
+
+
 
 import os
 
@@ -57,10 +58,7 @@ lottie_coding = load_lottieurl("https://assets5.lottiefiles.com/private_files/lf
 
 #Homepage configuration
 # Fetch the image from the GitHub repository
-image_url = "https://github.com/Khh98/exploreairbnb/blob/main/airbnb-2.jpg"
-response = requests.get(image_url)
-im = Image.open(BytesIO(response.content))
-
+im = Image.open("/exploreairbnb/airbnb-2.jpg")
 st.set_page_config(
     page_title="Airbnb",
     page_icon=im,
