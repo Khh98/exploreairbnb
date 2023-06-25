@@ -4,7 +4,6 @@ from PIL import Image
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 import requests
-import plotly.express as px
 import numpy as np 
 import pandas as pd 
 import matplotlib
