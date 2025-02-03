@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 import plotly.express as px
 import plotly.offline as pyo
+import altair
 
 
 import matplotlib.pyplot as plt
